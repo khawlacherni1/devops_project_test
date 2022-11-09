@@ -34,5 +34,12 @@ pipeline {
                            sh  'mvn package'
                        }
                  }
+
+         stage('MVN SONARQUBE'){
+
+                         steps{
+                                   sh  'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=99818823'
+                         }
+                   }
     }
 }
