@@ -42,7 +42,13 @@ pipeline {
                          }
                    }
 
-
+                 /*stage ('Publish to Nexus') {
+                            steps{
+                                 script{
+                                 nexusPublisher nexusInstanceId: 'INSTANCE_IN_JENKINS_SETTINGS', nexusRepositoryId: 'pipeline', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: './target/gift-shop-api.war']],mavenCoordinate: [artifactId: 'gift-shop-mono', groupId: 'com.online', packaging: 'war', version: '1']]]
+                                    }
+                                    }
+                        }*/
 
                    /*stage('Email Notification'){
                                steps{
