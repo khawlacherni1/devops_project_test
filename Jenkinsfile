@@ -42,7 +42,9 @@ pipeline {
                          }
                    }
 
-                   stage('Email Notification'){
+
+
+                   /*stage('Email Notification'){
                                steps{
                                    script{
                                        mail bcc: '', body: '''Hi,
@@ -51,7 +53,21 @@ pipeline {
                    khawla''', cc: '', from: '', replyTo: '', subject: 'Jenkins Job', to: 'khawla040200@gmail.com'
                                    }
                                }
-                           }
+                           }*/
+
+                   /*environment {
+                           DOCKERHUB_CREDENTIALS = credentials('')
+                           DOCKERHUB_CREDENTIALS_USR = ""
+                           DOCKERHUB_CREDENTIALS_PSW  = ""
+                       }
+
+                   stage('push docker hub') {
+                               steps {
+                                   sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW'
+                                    sh 'docker push docker.io/khawlacherni/khawlapidevtest'
+
+                               }
+                           }*/
 
     }
 }
