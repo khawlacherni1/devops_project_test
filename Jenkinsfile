@@ -1,16 +1,33 @@
 pipeline {
     agent any
     environment {
-                               /*DOCKERHUB_CREDENTIALS = credentials('')
-                               DOCKERHUB_CREDENTIALS_USR = ""
-                               DOCKERHUB_CREDENTIALS_PSW  = ""*/
+                               DOCKERHUB_CREDENTIALS = credentials('dockerhubtocken')
+                               DOCKERHUB_CREDENTIALS_USR = "khawlachrerni"
+                               DOCKERHUB_CREDENTIALS_PSW  = "99818823khawla"
                                EMAIL_TO = 'khawla.cherni@esprit.tn'
                            }
+
     tools {
             maven 'MAVEN_HOME'
 
         }
-
+    post {
+                    failure {
+                        emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}',
+                                to: "${EMAIL_TO}",
+                                subject: 'Build failed in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+                    }
+                    unstable {
+                        emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}',
+                                to: "${EMAIL_TO}",
+                                subject: 'Unstable build in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+                    }
+                    changed {
+                        emailext body: 'Check console output at $BUILD_URL to view the results.',
+                                to: "${EMAIL_TO}",
+                                subject: 'Jenkins build is back to normal: $PROJECT_NAME - #$BUILD_NUMBER'
+                    }
+                }
     stages{
         stage('Checkout') {
                         steps{
@@ -47,23 +64,7 @@ pipeline {
                          }
                    }
 
-        post {
-                failure {
-                    emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}',
-                            to: "${EMAIL_TO}",
-                            subject: 'Build failed in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
-                }
-                unstable {
-                    emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}',
-                            to: "${EMAIL_TO}",
-                            subject: 'Unstable build in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
-                }
-                changed {
-                    emailext body: 'Check console output at $BUILD_URL to view the results.',
-                            to: "${EMAIL_TO}",
-                            subject: 'Jenkins build is back to normal: $PROJECT_NAME - #$BUILD_NUMBER'
-                }
-            }
+
         /*stage ('Publish to Nexus') {
                             steps{
                                  script{
@@ -83,7 +84,7 @@ pipeline {
                                }
                            }*/
 
-                   /*
+
 
                    stage('push docker hub') {
                                steps {
@@ -91,7 +92,7 @@ pipeline {
                                     sh 'docker push docker.io/khawlacherni/khawlapidevtest'
 
                                }
-                           }*/
+                           }
 
     }
 }
