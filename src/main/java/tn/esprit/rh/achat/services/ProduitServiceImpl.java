@@ -52,7 +52,7 @@ public class ProduitServiceImpl implements IProduitService {
 
 	@Override
 	public Produit retrieveProduit(Long produitId) {
-		Produit produit = produitRepository.findById(produitId).orElse(null);
+		Produit produit = produitRepository.findById(produitId).orElseThrow(()->new RuntimeException("Nothing found"));
 		log.info("produit :" + produit);
 		return produit;
 	}
